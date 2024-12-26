@@ -9,12 +9,14 @@ function FormRow({ label, error, children }) {
     >
       <label
         htmlFor={children.props?.id}
-        className="text-2xl font-medium sm:pl-2"
+        className="text-2xl font-medium capitalize sm:pl-8"
       >
         {label}
       </label>
       {children}
-      {error && <span className="text-sm text-red-400">{error}</span>}
+      {error && (
+        <span className="block font-bold text-red-500 text-md">{error}</span>
+      )}
     </div>
   );
 }

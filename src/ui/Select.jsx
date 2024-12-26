@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 
-const Select = React.forwardRef(({ options, ...props }, ref) => {
+const Select = React.forwardRef(({ options, onHandle, ...props }, ref) => {
   const [selectedValue, setSelectedValue] = useState("");
 
   function handleChange(e) {
     setSelectedValue(e.target.value);
+
+    onHandle?.(e);
   }
 
   return (
@@ -13,10 +15,10 @@ const Select = React.forwardRef(({ options, ...props }, ref) => {
       ref={ref}
       value={selectedValue}
       onChange={handleChange}
-      className="bg-[#18212f] px-4 py-3 outline-none w-[280px] text-white rounded-lg border-2 transition-colors duration-100 border-solid focus:border-blue-400 border-[#2B3040]"
+      className="select"
     >
       {options.map((option) => (
-        <option key={option.value} value={option.value}>
+        <option key={option.value} value={option.value} className="max-w-48">
           {option.label}
         </option>
       ))}

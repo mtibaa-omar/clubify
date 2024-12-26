@@ -10,8 +10,8 @@ function MembersTable() {
     <Table columns="3">
       <Table.Header>
         <div>Member Name</div>
-        <div>Tache</div>
         <div>Gender</div>
+        <div>Role</div>
       </Table.Header>
       <Table.Body
         data={members}

@@ -6,9 +6,12 @@
   aside {
     grid-row: 1 / -1;
   }
+  .select {
+    @apply bg-[#18212f] first:bg-gray-700 px-4 py-3 outline-none w-[280px] text-white rounded-lg border-2 transition-colors duration-100 border-solid focus:border-blue-400 border-[#2B3040];
+  }
 
   .tableRow {
-    @apply grid items-center justify-end gap-4 font-mono font-bold;
+    @apply grid items-center justify-end gap-4 font-robotoMono font-bold;
 
     & > div {
       @apply text-center;
