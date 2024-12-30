@@ -1,7 +1,8 @@
-import supabase, { supabaseUrl } from "./supabase";
+import supabase from "./supabase";
 
 export async function getMembers({ filter, sortBy }) {
-  const { data, error } = await supabase.from("members").select("*");
+  let query = await supabase.from("members").select("*");
+  const { data, error } = query;
   if (error) {
     console.error(error);
     throw new Error("Members could not be loaded");
@@ -10,7 +11,7 @@ export async function getMembers({ filter, sortBy }) {
 }
 
 export async function getUniversities({ clubState }) {
-  if (clubState === null) return;
+  if (clubState === null) return [];
 
   const { data, error } = await supabase
     .from("university")
@@ -36,3 +37,29 @@ export async function createMember(newMember) {
 
   return data;
 }
+
+export async function deleteMember(id) {
+  const { data, error } = await supabase.from("members").delete().eq("id", id);
+  if (error) {
+    console.error(error);
+    throw new Error("Member could not be deleted");
+  }
+
+  return data;
+}
+
+export const fetchRoleEnumValues = async () => {
+  const { data, error } = await supabase.rpc("get_role_enum_values");
+
+  if (error) {
+    console.error("Error fetching role enum values:", error);
+    throw new Error("Failed to fetch role enum values.");
+  }
+
+  if (!data || data.length === 0) {
+    console.error("No values found for the enum 'role_enum'.");
+    throw new Error("No enum values found.");
+  }
+
+  return data.map((row) => row.value);
+};

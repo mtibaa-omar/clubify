@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Members from "./pages/Members";
@@ -9,11 +9,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PageNotFound from "./pages/PageNotFound";
 import { ToastContainer } from "react-toastify";
+import Login from "./pages/Login";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000,
+      staleTime: 0,
     },
   },
 });
@@ -28,15 +30,30 @@ function App() {
             <Route index element={<Home />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="members" element={<Members />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="user" element={<Users />} />
+            <Route
+              path="settings"
+              element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="user"
+              element={
+                <ProtectedRoute>
+                  <Users />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<PageNotFound />} />
           </Route>
+          <Route path="login" element={<Login />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer
         position="top-center"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}
@@ -44,6 +61,7 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        className="max-w-xs m-auto mt-24 ml-11 sm:ml-0 sm:mt-0 sm:max-w-md"
         theme="light"
       />
     </QueryClientProvider>

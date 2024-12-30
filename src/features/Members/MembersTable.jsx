@@ -7,7 +7,7 @@ function MembersTable() {
   const { members, isLoading } = useMembers();
   if (isLoading) return <Spinner />;
   return (
-    <Table columns="3">
+    <Table columns="grid-cols-3">
       <Table.Header>
         <div>Member Name</div>
         <div>Gender</div>

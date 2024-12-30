@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.3.0",
     "@supabase/supabase-js": "^2.47.10",
-    "@tanstack/react-query": "^5.62.8",
-    "@tanstack/react-query-devtools": "^5.62.9",
+    "@tanstack/react-query": "^5.62.11",
+    "@tanstack/react-query-devtools": "^5.62.11",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.7",
     "react": "^18.3.1",

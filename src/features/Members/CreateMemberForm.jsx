@@ -6,10 +6,18 @@ import Input from "../../ui/Input";
 import { useCreateMember } from "./useCreateMember";
 import Select from "../../ui/Select";
 import { useUniversities } from "./useUniversities";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRoleEnum } from "./useRoleEnum";
+import Spinner from "../../ui/Spinner";
 
-function CreateMemberForm() {
-  const { register, handleSubmit, formState, getValues, reset } = useForm();
+function CreateMemberForm({ memberToEdit = {} }) {
+  // eslint-disable-next-line no-unused-vars
+  const { id: editId, ...editValues } = memberToEdit;
+  const { register, handleSubmit, formState, reset, setValue } = useForm({
+    defaultValues: memberToEdit ? editValues : {},
+  });
+  const { data: roles, isLoading: isLoadingRoles } = useRoleEnum();
+
   const [selectedState, setSelectedState] = useState("0");
   const { errors } = formState;
   const { isCreating, addMember } = useCreateMember();
@@ -17,15 +25,25 @@ function CreateMemberForm() {
   const { isLoadingUniversities, universities } =
     useUniversities(selectedState);
 
+  useEffect(() => {
+    if (selectedState === "0") setValue("university_name", "0");
+  }, [selectedState, setValue]);
   function onSubmit(data) {
-    console.log(data);
-    addMember({ ...data }, { onSuccess: () => reset() });
+    addMember(
+      { ...data },
+      {
+        onSuccess: () => {
+          reset();
+          setSelectedState("0");
+        },
+      }
+    );
   }
 
   function handleChangeState(e) {
     setSelectedState(e.target.value);
   }
-
+  if (isLoadingRoles) return <Spinner />;
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow label="Member name" error={errors?.name?.message}>
@@ -42,6 +60,7 @@ function CreateMemberForm() {
       <FormRow label="Gender" error={errors?.gender?.message}>
         <Select
           id="gender"
+          disabled={isCreating}
           options={[
             { value: "0", label: "Select a gender" },
             { value: "MALE", label: "Male" },
@@ -56,10 +75,14 @@ function CreateMemberForm() {
         <Select
           id="state"
           onHandle={handleChangeState}
+          disabled={isCreating}
           options={[
             { value: "0", label: "Select a State" },
             { value: "sfax", label: "Sfax" },
             { value: "sousse", label: "Sousse" },
+            { value: "kairouan", label: "Kairouan" },
+            { value: "selliana", label: "Selliana" },
+            { value: "tunis", label: "Tunis" },
           ]}
           {...register("state", {
             validate: (value) => value !== "0" || "Please Select a State",
@@ -69,7 +92,9 @@ function CreateMemberForm() {
       <FormRow label="University" error={errors?.university_name?.message}>
         <Select
           id="university_name"
-          disabled={selectedState === "0"}
+          disabled={
+            selectedState === "0" || isCreating || isLoadingUniversities
+          }
           options={[
             { value: "0", label: "Select a University" },
             ...(universities
@@ -88,18 +113,38 @@ function CreateMemberForm() {
       <FormRow label="Role" error={errors?.role?.message}>
         <Select
           id="Role"
+          disabled={isCreating}
           options={[
             { value: "0", label: "Select a Role" },
-            { value: "MEMBER", label: "Member" },
-            { value: "PRESIDENT", label: "President" },
+            ...roles.map((role) => ({
+              value: role,
+              label: role,
+            })),
           ]}
           {...register("role", {
             validate: (value) => value !== "0" || "Please Select Role",
           })}
         />
       </FormRow>
+      <FormRow label="Email address" error={errors?.email?.message}>
+        <Input
+          type="email"
+          id="email"
+          placeholder="Email"
+          {...register("email", {
+            required: "This Field is required",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Please provide a valid email adress",
+            },
+          })}
+          disabled={isCreating}
+        />
+      </FormRow>
       <FormRow>
-        <Button disabled={isCreating}>Submit</Button>
+        <Button disabled={isCreating} type="submit">
+          Submit
+        </Button>
       </FormRow>
     </Form>
   );

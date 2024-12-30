@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Button from "../../ui/Button";
-import Row from "../../ui/Row";
 import CreateMemberForm from "./CreateMemberForm";
 
 function AddMember() {
@@ -11,9 +10,14 @@ function AddMember() {
   }
   return (
     <>
-      <div className="flex justify-center sm:justify-end">
-        <Button onClick={handleClick}>
-          {!isOpen ? "Add Members" : "Close Members"}
+      <div className="flex justify-center lg:justify-end">
+        <Button
+          $variation="primary"
+          $size="medium"
+          onClick={handleClick}
+          type="submit"
+        >
+          {!isOpen ? "Add New Members" : "Close Members"}
         </Button>
       </div>
       {isOpen && <CreateMemberForm />}

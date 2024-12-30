@@ -1,5 +1,3 @@
-import { FaMale } from "react-icons/fa";
-
 function FilterButton({ children, color, btnColor, bgColor }) {
   return (
     <div className="relative flex h-[50px] w-[50px] items-center justify-center">

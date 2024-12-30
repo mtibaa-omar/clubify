@@ -1,12 +1,13 @@
 import Heading from "../ui/Heading";
 import Filter from "../ui/FilterGender";
-import Table from "../ui/Table";
 import Row from "../ui/Row";
 import MembersTable from "../features/Members/MembersTable";
 import AddMember from "../features/Members/AddMember";
 import SortBy from "../ui/SortBy";
+import { useUser } from "../features/authentication/useUser";
 
 function Members() {
+  const { isAuthenticated } = useUser();
   return (
     <Row type="vertical">
       <Row type="horizontal">
@@ -18,7 +19,7 @@ function Members() {
       </Row>
       <Row>
         <MembersTable />
-        <AddMember />
+        {isAuthenticated && <AddMember />}
       </Row>
     </Row>
   );
