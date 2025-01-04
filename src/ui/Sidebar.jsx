@@ -12,7 +12,7 @@ function Sidebar({ isSidebarOpen }) {
     <aside
       className={`fixed top-0 w-64 lg:w-72 h-screen pt-24 z-30 transition-transform ${
         isSidebarOpen ? "translate-x-0 " : "-translate-x-full"
-      } bg-white border-r border-gray-200 lg:translate-x-0 dark:bg-gray-800 dark:border-gray-700`}
+      } bg-white border-r border-gray-200 lg:translate-x-0 dark:bg-gray-700 dark:border-gray-800`}
     >
       <div className="h-full">
         <ul className="flex flex-col gap-2 px-2">

@@ -1,23 +1,46 @@
+import { useState } from "react";
+import Row from "../../ui/Row";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
 import MemberRow from "./MemberRow";
+import UniversityOperations from "./UniversityOperations";
 import { useMembers } from "./useMembers";
 
 function MembersTable() {
-  const { members, isLoading } = useMembers();
-  if (isLoading) return <Spinner />;
+  const [selectedUniversity, setSelectedUniversity] = useState("0");
+  const [selectedMandat, setSelectedMandat] = useState("0");
+
+  const { members, isLoading } = useMembers(selectedUniversity, selectedMandat);
   return (
-    <Table columns="grid-cols-3">
-      <Table.Header>
-        <div>Member Name</div>
-        <div>Gender</div>
-        <div>Role</div>
-      </Table.Header>
-      <Table.Body
-        data={members}
-        render={(member) => <MemberRow key={member.id} member={member} />}
-      ></Table.Body>
-    </Table>
+    <>
+      <Row type="horizontal">
+        <UniversityOperations
+          selectedUniversity={selectedUniversity}
+          setSelectedUniversity={setSelectedUniversity}
+          selectedMandat={selectedMandat}
+          setSelectedMandat={setSelectedMandat}
+        />
+      </Row>
+      {isLoading ? (
+        <Row type="horizontal" justify="center">
+          <Spinner />
+        </Row>
+      ) : (
+        members && (
+          <Table columns="grid-cols-3">
+            <Table.Header>
+              <div>Member Name</div>
+              <div>Gender</div>
+              <div>Role</div>
+            </Table.Header>
+            <Table.Body
+              data={members}
+              render={(member) => <MemberRow key={member.id} member={member} />}
+            />
+          </Table>
+        )
+      )}
+    </>
   );
 }
 

@@ -1,27 +1,34 @@
 import Heading from "../ui/Heading";
-import Filter from "../ui/FilterGender";
 import Row from "../ui/Row";
 import MembersTable from "../features/Members/MembersTable";
 import AddMember from "../features/Members/AddMember";
-import SortBy from "../ui/SortBy";
 import { useUser } from "../features/authentication/useUser";
+import MembersOperations from "../features/Members/MembersOperations";
+import Footer from "../ui/Footer";
 
 function Members() {
   const { isAuthenticated } = useUser();
+
   return (
-    <Row type="vertical">
-      <Row type="horizontal">
-        <Heading>Members</Heading>
-        <Row type="horizontal">
-          <SortBy className="first:m-4" />
-          <Filter />
+    <div className="flex flex-col min-h-screen">
+      <div className="flex-grow">
+        <Row type="vertical">
+          <Row type="horizontal">
+            <Heading>Members</Heading>
+            <Row type="horizontal">
+              <MembersOperations />
+            </Row>
+          </Row>
+
+          <Row>
+            <MembersTable />
+            {isAuthenticated && <AddMember />}
+          </Row>
         </Row>
-      </Row>
-      <Row>
-        <MembersTable />
-        {isAuthenticated && <AddMember />}
-      </Row>
-    </Row>
+      </div>
+
+      <Footer />
+    </div>
   );
 }
 

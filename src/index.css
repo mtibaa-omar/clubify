@@ -8,7 +8,7 @@
   }
 
   .select {
-    @apply bg-[#18212f] first:bg-gray-700 px-4 py-3 capitalize outline-none w-[280px] text-white rounded-lg border-2 transition-colors duration-100 border-solid focus:border-blue-400 border-[#2B3040];
+    @apply bg-gray-700 px-4 py-3 capitalize outline-none w-[280px] text-white rounded-lg border-2 transition-colors duration-100 border-solid focus:border-blue-400 border-[#2B3040];
   }
 
   .tableRow {

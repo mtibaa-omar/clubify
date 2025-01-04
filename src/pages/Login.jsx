@@ -15,7 +15,7 @@ function Login() {
 
   return (
     <div className="flex items-center bg-gray-700 min-h-svh">
-      <div className="mx-auto py-[50px] w-[350px] sm:w-[550px] lg:w-[800px] ">
+      <div className="mx-auto py-[50px] w-[350px] sm:w-[550px] lg:w-[800px] border-2 rounded-lg border-gray-800">
         <Row type="vertical">
           <LoginForm />
         </Row>

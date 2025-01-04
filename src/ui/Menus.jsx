@@ -4,7 +4,15 @@ import { HiEllipsisVertical } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import ConfirmDelete from "./ConfirmDelete";
 
-function Menus({ bgColor = "#374151", memberId, name }) {
+function Menus({
+  bgColor = "#4b5563",
+  hoverColor = "#374151",
+  id,
+  name,
+  link,
+  deleteFct,
+  isDeleting,
+}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const navigate = useNavigate();
@@ -27,9 +35,13 @@ function Menus({ bgColor = "#374151", memberId, name }) {
         onClick={handleClick}
         sx={{
           color: "white",
+          fontWeight: "bold",
+          fontSize: 25,
+          width: "3rem",
+          height: "3rem",
           backgroundColor: bgColor,
           "&:hover": {
-            backgroundColor: "#4b5563",
+            backgroundColor: hoverColor,
           },
         }}
       >
@@ -47,17 +59,17 @@ function Menus({ bgColor = "#374151", memberId, name }) {
           },
         }}
       >
-        <MenuItem onClick={() => navigate(`/members/${memberId}`)}>
-          Edit
-        </MenuItem>
+        <MenuItem onClick={() => navigate(`/${link}/${id}`)}>Edit</MenuItem>
         <MenuItem onClick={handleClose}>View Details</MenuItem>
         <MenuItem onClick={handleDeleteClick}>Delete {name}</MenuItem>
       </Menu>
       {openDeleteModal && (
         <ConfirmDelete
           resourceName={name}
-          memberId={memberId}
-          handleClose={() => setOpenDeleteModal(false)} // Close modal function
+          id={id}
+          handleClose={() => setOpenDeleteModal(false)}
+          isDeleting={isDeleting}
+          deleteFct={deleteFct}
         />
       )}
     </>

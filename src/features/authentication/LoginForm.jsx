@@ -6,20 +6,25 @@ import { useLogin } from "./useLogin";
 import SpinnerMini from "../../ui/SpinnerMini";
 import FormRowVertical from "../../ui/FormRowVertical";
 import Heading from "../../ui/Heading";
+import { useNavigate } from "react-router-dom";
 
-function LoginForm() {
+function LoginForm({ type = "none" }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { isPending, login } = useLogin();
+  const navigate = useNavigate();
+  console.log(type);
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
     login(
       { email, password },
       {
-        onSettled: () => {
+        onSuccess: () => {
           setPassword("");
           setEmail("");
+
+          if (type !== "modal") navigate("/members", { replace: true });
         },
       }
     );

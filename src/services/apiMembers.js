@@ -1,13 +1,96 @@
 import supabase from "./supabase";
 
-export async function getMembers({ filter, sortBy }) {
-  let query = await supabase.from("members").select("*");
-  const { data, error } = query;
+export async function getMembers({
+  selectedUniversity,
+  selectedMandat,
+  filter,
+  sortBy,
+}) {
+  if (selectedUniversity === "0") return [];
+  let query = supabase.from("members").select("*");
+  query = query.eq("university_name", selectedUniversity);
+
+  //Mandat
+  query = query.eq("mandat", selectedMandat);
+
+  //FILTER
+  if (filter) query = query.eq(filter.field, filter.value);
+  // Sort
+  console.log(sortBy);
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
+  const { data, error } = await query;
   if (error) {
     console.error(error);
     throw new Error("Members could not be loaded");
   }
   return data;
+}
+
+export async function getMember(id) {
+  let { data, error } = await supabase
+    .from("members")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Member not found");
+  }
+
+  return data;
+}
+
+export async function getCounting() {
+  try {
+    // Count total members
+    const { count: totalCount, error: totalError } = await supabase
+      .from("members")
+      .select("*", { count: "exact" });
+
+    if (totalError) {
+      console.error(totalError);
+      throw new Error("Total count could not be retrieved");
+    }
+
+    // Count male members
+    const { count: maleCount, error: maleError } = await supabase
+      .from("members")
+      .select("*", { count: "exact" })
+      .eq("gender", "MALE");
+
+    if (maleError) {
+      console.error(maleError);
+      throw new Error("Male count could not be retrieved");
+    }
+
+    // Count female members
+    const { count: femaleCount, error: femaleError } = await supabase
+      .from("members")
+      .select("*", { count: "exact" })
+      .eq("gender", "FEMALE");
+
+    if (femaleError) {
+      console.error(femaleError);
+      throw new Error("Female count could not be retrieved");
+    }
+
+    // Count Clubs
+    const { count: universityCount, clubsError } = await supabase
+      .from("university")
+      .select("*", { count: "exact" });
+    if (clubsError) {
+      console.error(clubsError);
+      throw new Error("Club count could not be retrieved");
+    }
+    return { totalCount, maleCount, femaleCount, universityCount };
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 }
 
 export async function getUniversities({ clubState }) {
@@ -38,6 +121,20 @@ export async function createMember(newMember) {
   return data;
 }
 
+export async function updateMember(newMember, id) {
+  console.log(newMember);
+  const { data, error } = await supabase
+    .from("members")
+    .update({ ...newMember })
+    .eq("id", id)
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Member could not be updated");
+  }
+  return data;
+}
 export async function deleteMember(id) {
   const { data, error } = await supabase.from("members").delete().eq("id", id);
   if (error) {

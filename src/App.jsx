@@ -11,6 +11,7 @@ import PageNotFound from "./pages/PageNotFound";
 import { ToastContainer } from "react-toastify";
 import Login from "./pages/Login";
 import ProtectedRoute from "./ui/ProtectedRoute";
+import Member from "./pages/Member";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,6 +31,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="members" element={<Members />} />
+            <Route path="members/:memberId" element={<Member />} />
             <Route
               path="settings"
               element={
@@ -61,7 +63,7 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        className="max-w-xs m-auto mt-24 ml-11 sm:ml-0 sm:mt-0 sm:max-w-md"
+        className="absolute w-full max-w-xs mt-20 transform -translate-x-1/2 sm:mt-4 left-1/2 sm:max-w-md"
         theme="light"
       />
     </QueryClientProvider>

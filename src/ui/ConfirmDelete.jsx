@@ -2,8 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Button from "./Button";
-import { useDeleteMember } from "../features/Members/useDeleteMember";
-import SpinnerMini from "./SpinnerMini";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 const style = {
   position: "absolute",
@@ -22,13 +21,16 @@ const style = {
   p: "1.2rem",
 };
 
-export default function ConfirmDelete({ memberId, handleClose }) {
+export default function ConfirmDelete({
+  id,
+  handleClose,
+  deleteFct,
+  isDeleting,
+}) {
   document.body.style.overflow = "hidden";
-  const { isDeleting, deleteMember } = useDeleteMember();
-  console.log(isDeleting);
 
   function handleDelete() {
-    deleteMember(memberId, {
+    deleteFct(id, {
       onSettled: () => {
         handleClose();
         document.body.style.overflow = "";
@@ -44,17 +46,28 @@ export default function ConfirmDelete({ memberId, handleClose }) {
       disableScrollLock={false}
     >
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Confirm Delete
-        </Typography>
-        <Typography
-          id="modal-modal-title"
-          variant="body2"
-          sx={{ color: "#9ca3af", margin: "10px 0" }}
-        >
-          Are you sure you want to delete this member permanently? This action
-          cannot be undone.
-        </Typography>
+        <div className="flex items-center justify-center gap-5">
+          <div className="flex items-center justify-center mx-auto bg-red-100 rounded-full size-12 shrink-0 sm:mx-0 sm:size-12">
+            <FaExclamationTriangle
+              aria-hidden="true"
+              className="text-red-600 size-6"
+            />
+          </div>
+          <div>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Confirm Delete
+            </Typography>
+
+            <Typography
+              id="modal-modal-title"
+              variant="body2"
+              sx={{ color: "#9ca3af", margin: "10px 0" }}
+            >
+              Are you sure you want to delete this member permanently? This
+              action cannot be undone.
+            </Typography>
+          </div>
+        </div>
         <div className="text-right text-white">
           <Button
             disabled={isDeleting}
@@ -69,7 +82,7 @@ export default function ConfirmDelete({ memberId, handleClose }) {
             disabled={isDeleting}
             onClick={handleDelete}
           >
-            {isDeleting ? "Delete" : <SpinnerMini />}
+            Delete
           </Button>
         </div>
       </Box>

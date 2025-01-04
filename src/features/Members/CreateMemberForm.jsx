@@ -4,6 +4,7 @@ import FormRow from "../../ui/FormRow";
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
 import { useCreateMember } from "./useCreateMember";
+import { useUpdateMember } from "./useUpdateMember";
 import Select from "../../ui/Select";
 import { useUniversities } from "./useUniversities";
 import { useEffect, useState } from "react";
@@ -11,39 +12,52 @@ import { useRoleEnum } from "./useRoleEnum";
 import Spinner from "../../ui/Spinner";
 
 function CreateMemberForm({ memberToEdit = {} }) {
-  // eslint-disable-next-line no-unused-vars
-  const { id: editId, ...editValues } = memberToEdit;
+  const { isCreating, addMember } = useCreateMember();
+  const { isUpdating, updateMember } = useUpdateMember();
+  const isSubmitting = isCreating || isUpdating;
+
+  const {
+    id: editId,
+    state: editState,
+    university_name: editUniversity,
+    ...editValues
+  } = memberToEdit;
+
   const { register, handleSubmit, formState, reset, setValue } = useForm({
     defaultValues: memberToEdit ? editValues : {},
   });
-  const { data: roles, isLoading: isLoadingRoles } = useRoleEnum();
 
-  const [selectedState, setSelectedState] = useState("0");
+  const { data: roles, isLoading: isLoadingRoles } = useRoleEnum();
+  const [selectedState, setSelectedState] = useState(editState || "0");
   const { errors } = formState;
-  const { isCreating, addMember } = useCreateMember();
 
   const { isLoadingUniversities, universities } =
     useUniversities(selectedState);
-
   useEffect(() => {
     if (selectedState === "0") setValue("university_name", "0");
-  }, [selectedState, setValue]);
-  function onSubmit(data) {
-    addMember(
-      { ...data },
-      {
-        onSuccess: () => {
-          reset();
-          setSelectedState("0");
-        },
-      }
-    );
-  }
+    else if (memberToEdit && memberToEdit.university_name) {
+      setValue("state", memberToEdit.state);
+      setValue("university_name", memberToEdit.university_name);
+    }
+  }, [selectedState, setValue, memberToEdit]);
 
-  function handleChangeState(e) {
-    setSelectedState(e.target.value);
+  function onSubmit(data) {
+    if (Object.keys(memberToEdit).length !== 0) {
+      updateMember({ id: editId, newMember: data });
+    } else {
+      addMember(
+        { ...data },
+        {
+          onSuccess: () => {
+            reset();
+            setSelectedState("0");
+          },
+        }
+      );
+    }
   }
   if (isLoadingRoles) return <Spinner />;
+  console.log(memberToEdit);
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow label="Member name" error={errors?.name?.message}>
@@ -51,7 +65,7 @@ function CreateMemberForm({ memberToEdit = {} }) {
           autoComplete="off"
           type="text"
           id="name"
-          disabled={isCreating}
+          disabled={isSubmitting}
           placeholder="Member name"
           {...register("name", { required: "This field is required" })}
         />
@@ -60,7 +74,7 @@ function CreateMemberForm({ memberToEdit = {} }) {
       <FormRow label="Gender" error={errors?.gender?.message}>
         <Select
           id="gender"
-          disabled={isCreating}
+          disabled={isSubmitting}
           options={[
             { value: "0", label: "Select a gender" },
             { value: "MALE", label: "Male" },
@@ -71,11 +85,12 @@ function CreateMemberForm({ memberToEdit = {} }) {
           })}
         />
       </FormRow>
+
       <FormRow label="State" error={errors?.state?.message}>
         <Select
           id="state"
-          onHandle={handleChangeState}
-          disabled={isCreating}
+          onHandle={(e) => setSelectedState(e.target.value)}
+          disabled={isSubmitting}
           options={[
             { value: "0", label: "Select a State" },
             { value: "sfax", label: "Sfax" },
@@ -89,11 +104,28 @@ function CreateMemberForm({ memberToEdit = {} }) {
           })}
         />
       </FormRow>
+
+      <FormRow label="Mandat" error={errors?.mandat?.message}>
+        <Select
+          id="mandat"
+          options={[
+            { value: "0", label: "Select Mandat" },
+            { value: "2024-09-01", label: "2024-2025" },
+            { value: "2025-09-01", label: "2025-2026" },
+          ]}
+          {...register("mandat", {
+            required: "This Field is required",
+          })}
+          disabled={isSubmitting}
+        />
+      </FormRow>
+
       <FormRow label="University" error={errors?.university_name?.message}>
         <Select
           id="university_name"
+          defaultValues={memberToEdit ? editUniversity : "0"}
           disabled={
-            selectedState === "0" || isCreating || isLoadingUniversities
+            selectedState === "0" || isSubmitting || isLoadingUniversities
           }
           options={[
             { value: "0", label: "Select a University" },
@@ -113,7 +145,7 @@ function CreateMemberForm({ memberToEdit = {} }) {
       <FormRow label="Role" error={errors?.role?.message}>
         <Select
           id="Role"
-          disabled={isCreating}
+          disabled={isSubmitting}
           options={[
             { value: "0", label: "Select a Role" },
             ...roles.map((role) => ({
@@ -126,6 +158,7 @@ function CreateMemberForm({ memberToEdit = {} }) {
           })}
         />
       </FormRow>
+
       <FormRow label="Email address" error={errors?.email?.message}>
         <Input
           type="email"
@@ -135,15 +168,16 @@ function CreateMemberForm({ memberToEdit = {} }) {
             required: "This Field is required",
             pattern: {
               value: /\S+@\S+\.\S+/,
-              message: "Please provide a valid email adress",
+              message: "Please provide a valid email address",
             },
           })}
-          disabled={isCreating}
+          disabled={isSubmitting}
         />
       </FormRow>
+
       <FormRow>
-        <Button disabled={isCreating} type="submit">
-          Submit
+        <Button disabled={isSubmitting} type="submit">
+          {Object.keys(memberToEdit).length === 0 ? "Create" : "Update"}
         </Button>
       </FormRow>
     </Form>

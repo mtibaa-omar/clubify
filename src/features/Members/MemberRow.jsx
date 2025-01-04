@@ -5,12 +5,15 @@ import { HiEllipsisVertical } from "react-icons/hi2";
 import { Box, IconButton, Modal } from "@mui/material";
 import { useState } from "react";
 import LoginForm from "../authentication/LoginForm";
+import { useDeleteMember } from "./useDeleteMember";
 
 function MemberRow({ member }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const { name, gender, role, id: memberId } = member;
+  const { isDeleting, deleteMember } = useDeleteMember();
+
   const { isAuthenticated } = useUser();
   const genderStatus = {
     MALE: { background: "bg-blue-500", text: "text-blue-100" },
@@ -31,21 +34,27 @@ function MemberRow({ member }) {
               role === "member"
                 ? "border border-gray-800 text-stone-100"
                 : "bg-rose-500 text-rose-100"
-            } rounded-md w-[130px] text-[#f3f4f6] capitalize font-poppins font-[600] text-sm px-2 py-1 md:py-2 md:px-5 `}
+            } rounded-md min-w-[80px] overflow-hidden sm:min-w-[135px] text-[#f3f4f6] capitalize font-poppins font-[600] text-sm px-3 py-2 `}
           >
             {role}
           </div>
 
           {isAuthenticated ? (
-            <Menus name={name} memberId={memberId} />
+            <Menus
+              name={name}
+              id={memberId}
+              link="members"
+              isDeleting={isDeleting}
+              deleteFct={deleteMember}
+            />
           ) : (
             <IconButton
               onClick={handleOpen}
               sx={{
                 color: "white",
-                backgroundColor: "#374151",
+                backgroundColor: "#4b5563",
                 "&:hover": {
-                  backgroundColor: "#4b5563",
+                  backgroundColor: "#374151",
                 },
               }}
             >

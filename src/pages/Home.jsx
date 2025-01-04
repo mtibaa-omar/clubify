@@ -4,7 +4,7 @@ import Row from "../ui/Row";
 function Home() {
   return (
     <Row type="horizontal">
-      <Heading>Home</Heading>
+      <Heading>Our events</Heading>
     </Row>
   );
 }
