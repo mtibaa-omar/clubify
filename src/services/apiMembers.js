@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 
 export async function getMembers({
@@ -5,9 +6,10 @@ export async function getMembers({
   selectedMandat,
   filter,
   sortBy,
+  page,
 }) {
   if (selectedUniversity === "0") return [];
-  let query = supabase.from("members").select("*");
+  let query = supabase.from("members").select("*", { count: "exact" });
   query = query.eq("university_name", selectedUniversity);
 
   //Mandat
@@ -16,17 +18,23 @@ export async function getMembers({
   //FILTER
   if (filter) query = query.eq(filter.field, filter.value);
   // Sort
-  console.log(sortBy);
   if (sortBy)
     query = query.order(sortBy.field, {
       ascending: sortBy.direction === "asc",
     });
-  const { data, error } = await query;
+  // PAGINATION
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
   if (error) {
     console.error(error);
     throw new Error("Members could not be loaded");
   }
-  return data;
+  return { data, error, count };
 }
 
 export async function getMember(id) {
@@ -122,7 +130,6 @@ export async function createMember(newMember) {
 }
 
 export async function updateMember(newMember, id) {
-  console.log(newMember);
   const { data, error } = await supabase
     .from("members")
     .update({ ...newMember })

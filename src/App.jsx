@@ -63,7 +63,7 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        className="absolute w-full max-w-xs mt-20 transform -translate-x-1/2 sm:mt-4 left-1/2 sm:max-w-md"
+        className="fixed z-50 w-full max-w-xs transform -translate-x-1/2 pointer-events-auto top-20 left-1/2 sm:top-4 sm:max-w-md"
         theme="light"
       />
     </QueryClientProvider>

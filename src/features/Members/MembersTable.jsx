@@ -5,12 +5,16 @@ import Table from "../../ui/Table";
 import MemberRow from "./MemberRow";
 import UniversityOperations from "./UniversityOperations";
 import { useMembers } from "./useMembers";
+import Pagination from "../../ui/Pagination";
 
 function MembersTable() {
   const [selectedUniversity, setSelectedUniversity] = useState("0");
   const [selectedMandat, setSelectedMandat] = useState("0");
 
-  const { members, isLoading } = useMembers(selectedUniversity, selectedMandat);
+  const { members, isLoading, count } = useMembers(
+    selectedUniversity,
+    selectedMandat
+  );
   return (
     <>
       <Row type="horizontal">
@@ -37,6 +41,9 @@ function MembersTable() {
               data={members}
               render={(member) => <MemberRow key={member.id} member={member} />}
             />
+            <Table.Footer>
+              <Pagination count={count} />
+            </Table.Footer>
           </Table>
         )
       )}

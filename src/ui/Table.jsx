@@ -45,8 +45,17 @@ function Row({ children }) {
     </header>
   );
 }
-
+function Footer({ children }) {
+  return (
+    <header
+      className={`first:pt-1 pt-2 text-sm sm:text-xl font-bold lg:text-xl tableRow text-white lg:font-normal`}
+    >
+      {children}
+    </header>
+  );
+}
 Table.Header = Header;
 Table.Body = Body;
 Table.Row = Row;
+Table.Footer = Footer;
 export default Table;

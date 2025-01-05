@@ -58,7 +58,7 @@ function Card({ event }) {
         </div>
       </div>
 
-      <div className="absolute flex flex-col gap-1 p-3 duration-500 w-80 sm:w-96 bg-gray-50 sm:-bottom-[6.5rem] -bottom-[9.7rem] group-hover:-bottom-0 group-hover:duration-600">
+      <div className="absolute flex flex-col gap-1 p-3 duration-500 w-80 sm:w-96 bg-gray-50 sm:-bottom-[6.5rem] -bottom-[8rem] group-hover:-bottom-0 group-hover:duration-600">
         <span className="text-xs font-bold text-sky-400">
           {university_name}
         </span>

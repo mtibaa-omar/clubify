@@ -10,7 +10,7 @@ import Row from "../ui/Row";
 function Dashboard() {
   const { isAuthenticated } = useUser();
   return (
-    <div className="max-w-[21rem] sm:max-w-full flex flex-col min-h-screen">
+    <div className="max-w-[21rem] sm:min-w-full flex flex-col min-h-screen">
       <div className="flex-grow">
         <Row>
           <Row type="horizontal">

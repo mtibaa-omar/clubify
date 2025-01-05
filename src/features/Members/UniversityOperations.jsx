@@ -27,8 +27,10 @@ function UniversityOperations({
           { value: "0", label: "Select a State" },
           { value: "sfax", label: "Sfax" },
           { value: "sousse", label: "Sousse" },
+          { value: "monastir", label: "monastir" },
+          { value: "mahdia", label: "Mahdia" },
+          { value: "nabeul", label: "Nabeul" },
           { value: "kairouan", label: "Kairouan" },
-          { value: "selliana", label: "Selliana" },
           { value: "tunis", label: "Tunis" },
         ]}
         onHandle={(e) => {

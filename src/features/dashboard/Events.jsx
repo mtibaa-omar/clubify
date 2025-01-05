@@ -15,9 +15,9 @@ function Events() {
         {Object.keys(events).length ? (
           events.map((event) => <Card event={event} key={event.id} />)
         ) : (
-          <div className="px-2 py-2 text-4xl font-bold text-gray-100 shadow font-robotoMono">
+          <p className="inline-block max-w-xs -ml-4 text-2xl font-bold text-gray-100 break-words whitespace-normal shadow sm:text-4xl sm:px-2 sm:py-2 font-robotoMono">
             No Events in the {filterType} {days} days
-          </div>
+          </p>
         )}
       </div>
     </div>

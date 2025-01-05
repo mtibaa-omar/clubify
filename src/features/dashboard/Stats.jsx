@@ -45,7 +45,7 @@ function Stats() {
         title={"States"}
         color="text-green-600"
         bgColor="bg-green-400"
-        value="5"
+        value="6"
       />
     </div>
   );

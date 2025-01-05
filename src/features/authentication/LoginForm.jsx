@@ -13,7 +13,6 @@ function LoginForm({ type = "none" }) {
   const [password, setPassword] = useState("");
   const { isPending, login } = useLogin();
   const navigate = useNavigate();
-  console.log(type);
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;

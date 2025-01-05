@@ -1,5 +1,3 @@
-import { FaLinkedin } from "react-icons/fa";
-
 function Footer() {
   return (
     <div className="bottom-0">
@@ -10,11 +8,11 @@ function Footer() {
           </span>
 
           <a
-            href="https://www.linkedin.com/in/omar-mtibaa-337032327/"
+            href="mailto:mtibaaomarx@gmail.com"
             target="_blank"
             className="text-blue-400 hover:text-blue-500 me-4 md:me-6"
           >
-            <FaLinkedin size={40} />
+            Contact
           </a>
         </div>
       </footer>
