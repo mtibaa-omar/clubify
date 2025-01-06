@@ -20,6 +20,21 @@ export async function getEvents({ filterType, queryDate }) {
   return data;
 }
 
+export async function getEvent(eventId) {
+  console.log(eventId);
+  const { data, error } = await supabase
+    .from("events")
+    .select("*")
+    .eq("id", eventId)
+    .single();
+  if (error) {
+    console.error(error);
+    throw new Error("Event not found");
+  }
+
+  return data;
+}
+
 export async function createEvent(newEvent) {
   console.log(newEvent);
   const { data, error } = await supabase
@@ -29,6 +44,19 @@ export async function createEvent(newEvent) {
   if (error) {
     console.error(error);
     throw new Error("Event could not be created");
+  }
+
+  return data;
+}
+export async function updateEvent(id, newEvent) {
+  const { data, error } = await supabase
+    .from("events")
+    .update({ ...newEvent })
+    .eq("id", id)
+    .select();
+  if (error) {
+    console.error(error);
+    throw new Error("Event could not be updated");
   }
 
   return data;

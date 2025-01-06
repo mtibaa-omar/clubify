@@ -1,11 +1,7 @@
-import {
-  HiMiniUserGroup,
-  HiOutlineCog6Tooth,
-  HiOutlineHome,
-} from "react-icons/hi2";
-import { TbUsersPlus } from "react-icons/tb";
+import { HiMiniUserGroup, HiOutlineHome } from "react-icons/hi2";
 import { VscDashboard } from "react-icons/vsc";
 import { NavLink } from "react-router-dom";
+import Logo from "./Logo";
 
 function Sidebar({ isSidebarOpen }) {
   return (
@@ -16,6 +12,9 @@ function Sidebar({ isSidebarOpen }) {
     >
       <div className="h-full">
         <ul className="flex flex-col gap-2 px-2">
+          <li>
+            <Logo />
+          </li>
           <li className="px-3">
             <NavLink to="/" className="sidebarItem">
               <HiOutlineHome />
@@ -33,19 +32,6 @@ function Sidebar({ isSidebarOpen }) {
             <NavLink to="members" className="sidebarItem">
               <HiMiniUserGroup />
               <span>Members</span>
-            </NavLink>
-          </li>
-          <li className="px-3">
-            <NavLink to="user" className="sidebarItem">
-              <TbUsersPlus />
-
-              <span>Users</span>
-            </NavLink>
-          </li>
-          <li className="px-3">
-            <NavLink to="settings" className="sidebarItem">
-              <HiOutlineCog6Tooth />
-              <span>Settings</span>
             </NavLink>
           </li>
         </ul>

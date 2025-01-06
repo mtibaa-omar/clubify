@@ -4,6 +4,11 @@ function Footer() {
       <footer className="w-full mt-auto bg-white rounded-lg dark:bg-gray-600">
         <div className="flex items-center w-full max-w-screen-xl p-4 mx-auto justify-evenly">
           <span className="text-xl text-center text-gray-500 dark:text-gray-400">
+            Sos Club
+          </span>
+        </div>
+        <div className="flex items-center w-full max-w-screen-xl p-4 mx-auto justify-evenly">
+          <span className="text-xl text-center text-gray-500 dark:text-gray-400">
             © Mtibaa Omar
           </span>
 

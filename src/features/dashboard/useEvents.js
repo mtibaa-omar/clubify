@@ -18,11 +18,12 @@ export function useEvents() {
       : subDays(new Date(), numDays).toISOString();
   const {
     isLoading,
+    isFetching,
     data: events,
     error,
   } = useQuery({
     queryKey: ["events", filterType, numDays],
     queryFn: () => getEvents({ filterType, queryDate }),
   });
-  return { events, isLoading, error };
+  return { events, isLoading, isFetching, error };
 }

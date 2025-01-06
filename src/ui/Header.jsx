@@ -4,6 +4,9 @@ import { useUser } from "../features/authentication/useUser";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import Logout from "../features/authentication/Logout";
+import { HiOutlineUser } from "react-icons/hi";
+import ButtonIcon from "./ButtonIcon";
+import { TbUsersPlus } from "react-icons/tb";
 
 function Header({ handleClick }) {
   const { isAuthenticated } = useUser();
@@ -22,6 +25,12 @@ function Header({ handleClick }) {
             {isAuthenticated ? (
               <div className="flex items-center justify-center gap-2">
                 <UserAvatar />
+                <ButtonIcon onClick={() => navigate("settings")}>
+                  <HiOutlineUser size={25} />
+                </ButtonIcon>
+                <ButtonIcon onClick={() => navigate("user")}>
+                  <TbUsersPlus size={25} />
+                </ButtonIcon>
                 <Logout />
               </div>
             ) : (

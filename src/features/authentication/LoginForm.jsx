@@ -8,14 +8,16 @@ import FormRowVertical from "../../ui/FormRowVertical";
 import Heading from "../../ui/Heading";
 import { useNavigate } from "react-router-dom";
 
-function LoginForm({ type = "none" }) {
+function LoginForm({ type = "none", closeModal = {} }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { isPending, login } = useLogin();
   const navigate = useNavigate();
+
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
+
     login(
       { email, password },
       {
@@ -23,11 +25,16 @@ function LoginForm({ type = "none" }) {
           setPassword("");
           setEmail("");
 
-          if (type !== "modal") navigate("/members", { replace: true });
+          if (type === "modal" && closeModal) {
+            closeModal();
+          } else {
+            navigate("/members", { replace: true });
+          }
         },
       }
     );
   }
+
   return (
     <Form onSubmit={handleSubmit}>
       <Heading>Login</Heading>
@@ -41,7 +48,7 @@ function LoginForm({ type = "none" }) {
         />
       </FormRowVertical>
 
-      <FormRowVertical label="Password ">
+      <FormRowVertical label="Password">
         <Input
           id="password"
           type="password"

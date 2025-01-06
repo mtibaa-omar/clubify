@@ -1,16 +1,10 @@
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useUser } from "../authentication/useUser";
-import { HiEllipsisVertical } from "react-icons/hi2";
-import { Box, IconButton, Modal } from "@mui/material";
-import { useState } from "react";
-import LoginForm from "../authentication/LoginForm";
 import { useDeleteMember } from "./useDeleteMember";
+import LoginModal from "../../ui/LoginModal";
 
 function MemberRow({ member }) {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const { name, gender, role, id: memberId } = member;
   const { isDeleting, deleteMember } = useDeleteMember();
 
@@ -48,51 +42,10 @@ function MemberRow({ member }) {
               deleteFct={deleteMember}
             />
           ) : (
-            <IconButton
-              onClick={handleOpen}
-              sx={{
-                color: "white",
-                backgroundColor: "#4b5563",
-                "&:hover": {
-                  backgroundColor: "#374151",
-                },
-              }}
-            >
-              <HiEllipsisVertical />
-            </IconButton>
+            <LoginModal />
           )}
         </div>
       </Table.Row>
-      {open && (
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box
-            sx={{
-              overflow: "hidden",
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: {
-                xs: 400,
-                sm: 500,
-              },
-              border: "2px solid #2B3040",
-
-              borderRadius: 2,
-              boxShadow: 24,
-            }}
-          >
-            <>
-              <LoginForm />
-            </>
-          </Box>
-        </Modal>
-      )}
     </>
   );
 }

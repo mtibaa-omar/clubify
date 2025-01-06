@@ -3,22 +3,28 @@ import { useState } from "react";
 import LoginForm from "../features/authentication/LoginForm";
 import { HiEllipsisVertical } from "react-icons/hi2";
 
-function LoginModal() {
+function LoginModal({ bgColor = "#4b5563", hoverColor = "#374151" }) {
   const [open, setOpen] = useState(false);
+
   const handleOpen = () => {
     setOpen(true);
-    document.body.style.overflow = "";
   };
-  const handleClose = () => setOpen(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       <IconButton
         onClick={handleOpen}
         sx={{
           color: "white",
-          backgroundColor: "#38bdf8",
+          // backgroundColor:"#38bdf8",
+          backgroundColor: bgColor,
           "&:hover": {
-            backgroundColor: "#0284c7",
+            // backgroundColor: "#0284c7",
+            backgroundColor: hoverColor,
           },
         }}
       >
@@ -43,13 +49,12 @@ function LoginModal() {
                 sm: 500,
               },
               border: "2px solid #2B3040",
-
               borderRadius: 2,
               boxShadow: 24,
             }}
           >
-            <div className="">
-              <LoginForm type="modal" />
+            <div>
+              <LoginForm type="modal" closeModal={handleClose} />
             </div>
           </Box>
         </Modal>

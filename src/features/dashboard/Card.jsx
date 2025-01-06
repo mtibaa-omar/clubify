@@ -13,6 +13,7 @@ function Card({ event }) {
     startDate,
     endDate,
     university_name,
+    description,
     location,
     poweredBy,
   } = event;
@@ -34,8 +35,8 @@ function Card({ event }) {
   });
 
   return (
-    <div className="relative overflow-hidden duration-500 cursor-pointer w-80 sm:w-96 group text-gray-50 h-72 rounded-2xl hover:duration-700">
-      <div className="text-gray-800 bg-sky-400 sm:w-96 h-72">
+    <div className="relative overflow-hidden cursor-pointer w-80 sm:w-96 group text-gray-50 h-72 rounded-2xl ">
+      <div className="flex flex-col justify-between text-gray-800 bg-sky-400 sm:w-96 h-72">
         <div className="flex flex-row justify-between">
           <HiOutlineAdjustments className="w-10 h-10 p-2 m-1 rounded-full hover:bg-sky-200" />
           <div>
@@ -45,20 +46,28 @@ function Card({ event }) {
                 bgColor="#38bdf8"
                 hoverColor="#0284c7"
                 name={eventName}
-                link="dashboard"
+                link="dashboard/event"
                 isDeleting={isDeleting}
                 deleteFct={deleteEvent}
               />
             ) : (
               <>
-                <LoginModal />
+                <LoginModal bgColor="#38bdf8" hoverColor="#0284c7" />
               </>
             )}
           </div>
         </div>
+        <div className="flex flex-col p-4 bg-gray-50">
+          <span className="text-xs font-bold text-sky-400">
+            {university_name}
+          </span>
+          <span className="text-3xl font-bold text-gray-800">
+            {formattedDate}
+          </span>
+        </div>
       </div>
 
-      <div className="absolute flex flex-col gap-1 p-3 duration-500 w-80 sm:w-96 bg-gray-50 sm:-bottom-[6.5rem] -bottom-[8rem] group-hover:-bottom-0 group-hover:duration-600">
+      <div className="absolute flex flex-col w-full gap-1 p-4 text-gray-800 duration-500 bg-gray-50 -bottom-[30rem] group-hover:bottom-0 group-hover:duration-1000">
         <span className="text-xs font-bold text-sky-400">
           {university_name}
         </span>
@@ -69,6 +78,7 @@ function Card({ event }) {
           <p className="font-bold">{eventName}</p>
           Evenement Tebda {formattedStartTime} w toufa {formattedEndTime}
           <p className="font-bold">Location: {location}</p>
+          <p>{description}</p>
           {poweredBy && (
             <p className="font-bold">This event is PoweredBy: {poweredBy}</p>
           )}

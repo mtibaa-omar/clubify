@@ -12,11 +12,12 @@ import { ToastContainer } from "react-toastify";
 import Login from "./pages/Login";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import Member from "./pages/Member";
+import EventDetails from "./features/dashboard/EventDetails";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 0,
+      staleTime: 60,
     },
   },
 });
@@ -30,6 +31,7 @@ function App() {
           <Route element={<AppLayout />}>
             <Route index element={<Home />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="dashboard/event/:eventId" element={<EventDetails />} />
             <Route path="members" element={<Members />} />
             <Route path="members/:memberId" element={<Member />} />
             <Route

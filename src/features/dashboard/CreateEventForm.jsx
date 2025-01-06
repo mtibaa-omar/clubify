@@ -1,7 +1,7 @@
 import { useForm, Controller } from "react-hook-form";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "../../ui/Select";
 import { useUniversities } from "../Members/useUniversities";
 import { useCreateEvent } from "./useCreateEvent";
@@ -10,18 +10,44 @@ import Input from "../../ui/Input";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import { useUpdateEvent } from "./useUpdateEvent";
 
-function CreateEventForm() {
-  const [selectedState, setSelectedState] = useState("0");
-  const { register, formState, handleSubmit, control, reset } = useForm();
-  const { errors } = formState;
+function CreateEventForm({ eventToEdit = {} }) {
+  const { isCreating, addEvent } = useCreateEvent();
+  const { isUpdating, updateEvent } = useUpdateEvent();
+  const isSubmitting = isCreating || isUpdating;
 
+  const {
+    id: editId,
+    state: editState,
+    university_name: editUniversity,
+    ...editValues
+  } = eventToEdit;
+
+  const [selectedState, setSelectedState] = useState(editState || "0");
   const { isLoadingUniversities, universities } =
     useUniversities(selectedState);
 
-  const { isCreating, addEvent } = useCreateEvent();
+  const { register, formState, handleSubmit, setValue, control, reset } =
+    useForm({
+      defaultValues: eventToEdit ? editValues : {},
+    });
+  const { errors } = formState;
+
+  useEffect(() => {
+    if (selectedState === "0") setValue("university_name", "0");
+    else if (universities?.length > 0 && editUniversity) {
+      setValue("state", editState);
+      setValue("university_name", editUniversity);
+    }
+  }, [selectedState, setValue, editUniversity, editState, universities]);
+
   function onSubmit(data) {
-    addEvent(data, { onSuccess: () => reset() });
+    if (Object.keys(eventToEdit).length) {
+      updateEvent({ id: editId, newEvent: data });
+    } else {
+      addEvent(data, { onSuccess: () => reset() });
+    }
   }
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -30,7 +56,7 @@ function CreateEventForm() {
           autoComplete="off"
           type="text"
           id="eventName"
-          disabled={isCreating}
+          disabled={isSubmitting}
           placeholder="Event name"
           {...register("eventName", { required: "This field is required" })}
         />
@@ -39,7 +65,7 @@ function CreateEventForm() {
         <Select
           id="state"
           onHandle={(e) => setSelectedState(e.target.value)}
-          disabled={isCreating}
+          disabled={isSubmitting}
           options={[
             { value: "0", label: "Select a State" },
             { value: "sfax", label: "Sfax" },
@@ -59,7 +85,7 @@ function CreateEventForm() {
         <Select
           id="university_name"
           disabled={
-            selectedState === "0" || isCreating || isLoadingUniversities
+            selectedState === "0" || isSubmitting || isLoadingUniversities
           }
           options={[
             { value: "0", label: "Select a University" },
@@ -141,7 +167,7 @@ function CreateEventForm() {
           autoComplete="off"
           type="text"
           id="location"
-          disabled={isCreating}
+          disabled={isSubmitting}
           placeholder="Event location"
           {...register("location", { required: "This field is required" })}
         />
@@ -151,7 +177,7 @@ function CreateEventForm() {
           autoComplete="off"
           type="text"
           id="description"
-          disabled={isCreating}
+          disabled={isSubmitting}
           placeholder="Event description"
           {...register("description", { required: "This field is required" })}
         />
@@ -161,15 +187,15 @@ function CreateEventForm() {
           autoComplete="off"
           type="text"
           id="poweredBy"
-          disabled={isCreating}
-          placeholder="sponsor"
-          {...register("poweredBy", { required: "This field is required" })}
+          disabled={isSubmitting}
+          placeholder="Sponsor Not Required"
+          {...register("poweredBy")}
         />
       </FormRow>
 
       <FormRow>
-        <Button disabled={isCreating} type="submit">
-          Create
+        <Button disabled={isSubmitting} type="submit">
+          {Object.keys(eventToEdit).length === 0 ? "Create" : "Update"}
         </Button>
       </FormRow>
     </Form>
