@@ -21,7 +21,6 @@ export async function getEvents({ filterType, queryDate }) {
 }
 
 export async function getEvent(eventId) {
-  console.log(eventId);
   const { data, error } = await supabase
     .from("events")
     .select("*")
@@ -36,7 +35,6 @@ export async function getEvent(eventId) {
 }
 
 export async function createEvent(newEvent) {
-  console.log(newEvent);
   const { data, error } = await supabase
     .from("events")
     .insert([{ ...newEvent }])

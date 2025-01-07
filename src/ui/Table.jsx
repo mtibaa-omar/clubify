@@ -6,7 +6,7 @@ function Table({ children, columns }) {
   // columns = `grid-cols-${columns}`;
   return (
     <TableContext.Provider value={{ columns }}>
-      <div className="p-2 border-2 rounded lg:px-1 border-neutral-500">
+      <div className="p-2 overflow-hidden border-2 rounded lg:px-1 border-neutral-500">
         {children}
       </div>
     </TableContext.Provider>
@@ -31,12 +31,11 @@ function Body({ data, render }) {
       </div>
     );
 
-  return <section className="py-2">{data.map(render)}</section>;
+  return <section className="grid py-2">{data.map(render)}</section>;
 }
 
 function Row({ children }) {
   const { columns } = useContext(TableContext);
-
   return (
     <header
       className={`${columns} first:pt-1 pt-2 text-sm sm:text-xl font-bold lg:text-xl tableRow text-white lg:font-normal`}

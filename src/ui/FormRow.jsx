@@ -6,7 +6,7 @@ function FormRow({ label, error, children }) {
   py-3 first:pt-0 last:pb-0 
   [&:not(:last-child)]:border-b [&:not(:last-child)]:border-[#2B3040]
   [&:has(button)]:flex [&:has(button)]:flex-row [&:has(button)]:justify-end [&:has(button)]:gap-3
-  sm:[&:has(.datepicker)]:grid sm:[&:has(.datepicker)]:items-center sm:[&:has(.datepicker)]:gap-6 sm:[&:has(.datepicker)]:grid-cols-[24rem_1fr_1.2fr] 
+  xl:[&:has(.datepicker)]:grid xl:[&:has(.datepicker)]:items-center xl:[&:has(.datepicker)]:gap-6 xl:[&:has(.datepicker)]:grid-cols-[24rem_1fr_1.2fr] 
 `}
     >
       <label

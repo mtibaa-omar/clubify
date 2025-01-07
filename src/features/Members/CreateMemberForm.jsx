@@ -11,11 +11,11 @@ import { useEffect, useState } from "react";
 import { useRoleEnum } from "./useRoleEnum";
 import Spinner from "../../ui/Spinner";
 
-function CreateMemberForm({ memberToEdit = {} }) {
+function CreateMemberForm({ memberToEdit = {}, type }) {
   const { isCreating, addMember } = useCreateMember();
   const { isUpdating, updateMember } = useUpdateMember();
   const isSubmitting = isCreating || isUpdating;
-
+  const isViewing = type === "view";
   const {
     id: editId,
     state: editState,
@@ -64,7 +64,7 @@ function CreateMemberForm({ memberToEdit = {} }) {
           autoComplete="off"
           type="text"
           id="name"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isViewing}
           placeholder="Member name"
           {...register("name", { required: "This field is required" })}
         />
@@ -73,7 +73,7 @@ function CreateMemberForm({ memberToEdit = {} }) {
       <FormRow label="Gender" error={errors?.gender?.message}>
         <Select
           id="gender"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isViewing}
           options={[
             { value: "0", label: "Select a gender" },
             { value: "MALE", label: "Male" },
@@ -89,7 +89,7 @@ function CreateMemberForm({ memberToEdit = {} }) {
         <Select
           id="state"
           onHandle={(e) => setSelectedState(e.target.value)}
-          disabled={isSubmitting}
+          disabled={isSubmitting || isViewing}
           options={[
             { value: "0", label: "Select a State" },
             { value: "sfax", label: "Sfax" },
@@ -117,16 +117,19 @@ function CreateMemberForm({ memberToEdit = {} }) {
           {...register("mandat", {
             required: "This Field is required",
           })}
-          disabled={isSubmitting}
+          disabled={isSubmitting || isViewing}
         />
       </FormRow>
 
       <FormRow label="University" error={errors?.university_name?.message}>
         <Select
           id="university_name"
-          defaultValues={memberToEdit ? editUniversity : "0"}
+          defaultvalues={memberToEdit ? editUniversity : "0"}
           disabled={
-            selectedState === "0" || isSubmitting || isLoadingUniversities
+            selectedState === "0" ||
+            isSubmitting ||
+            isLoadingUniversities ||
+            isViewing
           }
           options={[
             { value: "0", label: "Select a University" },
@@ -146,7 +149,7 @@ function CreateMemberForm({ memberToEdit = {} }) {
       <FormRow label="Role" error={errors?.role?.message}>
         <Select
           id="Role"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isViewing}
           options={[
             { value: "0", label: "Select a Role" },
             ...roles.map((role) => ({
@@ -157,6 +160,22 @@ function CreateMemberForm({ memberToEdit = {} }) {
           {...register("role", {
             validate: (value) => value !== "0" || "Please Select Role",
           })}
+        />
+      </FormRow>
+
+      <FormRow label="Department" error={errors?.department?.message}>
+        <Select
+          id="department"
+          options={[
+            { value: "0", label: "Select department" },
+            { value: "ressourceHumaine", label: "ressource Humaine" },
+            { value: "event", label: "event" },
+            { value: "communication", label: "communication" },
+          ]}
+          {...register("department", {
+            required: "This Field is required",
+          })}
+          disabled={isSubmitting || isViewing}
         />
       </FormRow>
 
@@ -172,15 +191,17 @@ function CreateMemberForm({ memberToEdit = {} }) {
               message: "Please provide a valid email address",
             },
           })}
-          disabled={isSubmitting}
+          disabled={isSubmitting || isViewing}
         />
       </FormRow>
 
-      <FormRow>
-        <Button disabled={isSubmitting} type="submit">
-          {Object.keys(memberToEdit).length === 0 ? "Create" : "Update"}
-        </Button>
-      </FormRow>
+      {!isViewing && (
+        <FormRow>
+          <Button disabled={isSubmitting} type="submit">
+            {Object.keys(memberToEdit).length === 0 ? "Create" : "Update"}
+          </Button>
+        </FormRow>
+      )}
     </Form>
   );
 }

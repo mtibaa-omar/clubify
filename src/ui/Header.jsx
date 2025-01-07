@@ -7,9 +7,11 @@ import Logout from "../features/authentication/Logout";
 import { HiOutlineUser } from "react-icons/hi";
 import ButtonIcon from "./ButtonIcon";
 import { TbUsersPlus } from "react-icons/tb";
+import { useMediaQuery } from "@mui/material";
 
 function Header({ handleClick }) {
   const { isAuthenticated } = useUser();
+  const isPhone = useMediaQuery("(max-width: 768px)");
   const navigate = useNavigate();
   return (
     <nav className="fixed top-0 z-40 w-full border-b dark:text-white dark:bg-gray-700 dark:border-gray-800 ">
@@ -26,10 +28,10 @@ function Header({ handleClick }) {
               <div className="flex items-center justify-center gap-2">
                 <UserAvatar />
                 <ButtonIcon onClick={() => navigate("settings")}>
-                  <HiOutlineUser size={25} />
+                  <HiOutlineUser size={isPhone ? 20 : 25} />
                 </ButtonIcon>
                 <ButtonIcon onClick={() => navigate("user")}>
-                  <TbUsersPlus size={25} />
+                  <TbUsersPlus size={isPhone ? 20 : 25} />
                 </ButtonIcon>
                 <Logout />
               </div>

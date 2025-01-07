@@ -5,9 +5,9 @@ const Input = React.forwardRef((props, ref) => {
 
   return (
     <input
-      className={`bg-[#374151] px-4 py-3 outline-none w-[280px] text-white rounded-lg border-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-[#2B3040] ${
-        disabled ? "bg-[#2B3040] cursor-not-allowed border-[#4C5A6B]" : ""
-      }`}
+      className={`bg-[#374151] px-4 py-3 outline-none w-[280px] text-white rounded-lg border-2 transition-colors duration-100 border-solid focus:border-blue-400 border-[#2B3040] 
+        disabled:bg-[#111827] disabled:cursor-not-allowed disabled:border-[#030712] disabled:opacity-70 
+      `}
       {...rest}
       ref={ref}
       disabled={disabled}

@@ -9,8 +9,8 @@ import Heading from "../../ui/Heading";
 import { useNavigate } from "react-router-dom";
 
 function LoginForm({ type = "none", closeModal = {} }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@example.com");
+  const [password, setPassword] = useState("testtest");
   const { isPending, login } = useLogin();
   const navigate = useNavigate();
 

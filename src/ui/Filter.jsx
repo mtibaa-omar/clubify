@@ -14,7 +14,7 @@ function Filter({ options, filterField }) {
         <button
           key={option.value}
           onClick={() => handleClick(option.value)}
-          className={`rounded-sm font-medium font-robotoMono h-[2.4rem] px-1 sm:text-base sm:px-3 sm:py-2 transition-colors 
+          className={`rounded-sm font-medium font-robotoMono w-[6rem] h-[2.5rem] px-1 sm:text-base sm:px-3 sm:py-2 transition-colors 
             ${
               option.value === activeFilter
                 ? "bg-[#0ea5e9] text-gray-50"

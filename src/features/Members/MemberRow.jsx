@@ -18,7 +18,7 @@ function MemberRow({ member }) {
       <Table.Row>
         <div className="text-gray-0 first:capitalize">{name}</div>
         <div
-          className={`${genderStatus[gender]?.background} ${genderStatus[gender]?.text} rounded-md lg:w-[105px] w-[70px] m-auto text-[#f3f4f6] font-poppins font-[600] text-sm lg:text-base py-1 lg:py-2 lg:px-5 `}
+          className={`${genderStatus[gender]?.background} ${genderStatus[gender]?.text} rounded-md lg:w-[105px] w-[70px] m-auto text-[#f3f4f6] font-poppins font-[600] sm:text-base py-1 lg:py-2 lg:px-5 `}
         >
           {gender}
         </div>
@@ -27,7 +27,7 @@ function MemberRow({ member }) {
             className={`${
               role === "member"
                 ? "border border-gray-800 text-stone-100"
-                : "bg-rose-500 text-rose-100"
+                : "bg-rose-500 text-rose-100 text-[0.6rem] sm:text-sm px-0 sm:w-[125px]"
             } rounded-md min-w-[80px] overflow-hidden sm:min-w-[135px] text-[#f3f4f6] capitalize font-poppins font-[600] text-sm px-3 py-2 `}
           >
             {role}

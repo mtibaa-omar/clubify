@@ -9,7 +9,7 @@ function UserAvatar() {
       <img
         src={avatar || "default-user.jpg"}
         alt={`Avatar of ${fullName}`}
-        className="object-cover object-center border-2 border-gray-100 rounded-full w-14 h-14"
+        className="object-cover object-center w-10 h-10 border-2 border-gray-100 rounded-full sm:w-14 sm:h-14"
       />
       <span>{fullName}</span>
     </div>

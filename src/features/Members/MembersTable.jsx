@@ -31,7 +31,7 @@ function MembersTable() {
         </Row>
       ) : (
         members && (
-          <Table columns="grid-cols-3">
+          <Table columns="grid-cols-[1fr_1fr_1.5fr]">
             <Table.Header>
               <div>Member Name</div>
               <div>Gender</div>

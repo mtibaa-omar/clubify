@@ -59,8 +59,12 @@ function Menus({
           },
         }}
       >
-        <MenuItem onClick={() => navigate(`/${link}/${id}`)}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>View Details</MenuItem>
+        <MenuItem onClick={() => navigate(`/${link}/${id}?type=edit`)}>
+          Edit
+        </MenuItem>
+        <MenuItem onClick={() => navigate(`/${link}/${id}?type=view`)}>
+          View Details
+        </MenuItem>
         <MenuItem onClick={handleDeleteClick}>Delete {name}</MenuItem>
       </Menu>
       {openDeleteModal && (

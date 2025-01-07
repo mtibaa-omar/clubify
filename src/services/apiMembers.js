@@ -129,6 +129,20 @@ export async function createMember(newMember) {
   return data;
 }
 
+export async function getMembersEvent(university_name) {
+  const { data, error } = await supabase
+    .from("members")
+    .select("name")
+    .eq("university_name", university_name)
+    .eq("department", "event");
+
+  if (error) {
+    console.error("Error fetching members:", error.message);
+    throw new Error("Members Event could not be loaded");
+  }
+
+  return data;
+}
 export async function updateMember(newMember, id) {
   const { data, error } = await supabase
     .from("members")

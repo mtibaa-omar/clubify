@@ -40,7 +40,6 @@ export async function logout() {
 }
 
 export async function updateCurrentUser({ fullName, password, avatar }) {
-  console.log(avatar);
   let updateUser;
   if (fullName) updateUser = { data: { fullName } };
   if (password) updateUser = { password };

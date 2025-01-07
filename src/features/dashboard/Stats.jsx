@@ -11,7 +11,7 @@ function Stats() {
   if (isLoading) return <Spinner />;
   const { totalCount, femaleCount, maleCount, universityCount } = data;
   return (
-    <div className="flex flex-col gap-4 sm:grid sm:grid-cols-3 sm:gap-8">
+    <div className="flex flex-col gap-4 xl:grid xl:grid-cols-2 2xl:grid-cols-3 xl:gap-8">
       <Stat
         icon={<FaUsers size={25} />}
         title={"MEMBERS"}
